@@ -1,5 +1,6 @@
 com/company/directory/Employee.class
 com/company/directory/LoginServlet.class
-com/company/directory/AddEmployeeServlet.class
 com/company/directory/CSVEmployeeReader.class
 com/company/directory/LogoutServlet.class
+com/company/directory/Main.class
+com/company/directory/AddEmployeeServlet.class
