@@ -1,14 +1,23 @@
-# Use a base image with Java 17
-FROM eclipse-temurin:17
+# First stage: build the JAR using Maven
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy the JAR file into the container
-COPY target/employee-directory.jar app.jar
+# Copy Maven project files
+COPY pom.xml .
+COPY src ./src
 
-# Expose port 8080 (Render requires this port)
+# Package the application
+RUN mvn clean package -DskipTests
+
+# Second stage: run the app
+FROM eclipse-temurin:17
+
+WORKDIR /app
+
+# Copy built JAR from previous stage
+COPY --from=build /app/target/employee-directory.jar app.jar
+
 EXPOSE 8080
 
-# Run the app
 CMD ["java", "-jar", "app.jar"]
